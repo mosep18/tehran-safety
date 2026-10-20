@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3f5f9">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Offline bilingual civilian safety handbook for preparation, sheltering, evacuation and recovery.">
+  <title>Tehran Civilian Safety Handbook</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="preload" href="assets/fonts/Vazirmatn-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    /* Apply saved theme and language before first paint to avoid a flash. */
+    (function () {
+      try {
+        var th = JSON.parse(localStorage.getItem('ts_theme') || '"auto"');
+        var dark = th === 'dark' || (th !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        var lg = JSON.parse(localStorage.getItem('ts_lang') || '"fa"');
+        document.documentElement.lang = lg === 'en' ? 'en' : 'fa';
+        document.documentElement.dir = lg === 'en' ? 'ltr' : 'rtl';
+        document.querySelector('meta[name=theme-color]').content = dark ? '#080f1a' : '#f3f5f9';
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" id="brandHome" aria-label="Home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 2.5 27 7v8.8c0 6.5-4.5 11-11 13.7C9.5 26.8 5 22.3 5 15.8V7z"/><path d="M16 8v13M11 21h10M12 16l4-4 4 4"/></svg></span>
+        <span class="brand-copy"><strong id="brandTitle">Tehran Safety</strong><small id="brandSubtitle">Prepare · Survive · Recover</small></span>
+      </button>
+      <div class="header-actions">
+        <button class="round-btn" id="themeToggle" aria-label="Toggle theme"></button>
+        <button class="round-btn" id="langToggle" aria-label="Change language">EN</button>
+        <button class="round-btn" id="searchOpen" aria-label="Search"></button>
+      </div>
+    </header>
+    <main id="appMain" tabindex="-1"></main>
+    <nav class="bottom-nav" id="bottomNav" aria-label="Main navigation">
+      <button data-tab="home" class="nav-item active"><span data-icon="home"></span><span data-i18n="navHome">Home</span></button>
+      <button data-tab="guide" class="nav-item"><span data-icon="book"></span><span data-i18n="navGuide">Guide</span></button>
+      <button data-tab="checklists" class="nav-item"><span data-icon="check"></span><span data-i18n="navChecklists">Checklists</span></button>
+      <button data-tab="more" class="nav-item"><span data-icon="grid"></span><span data-i18n="navMore">More</span></button>
+    </nav>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="scrim" id="scrim"></div>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-hidden="true"></div>
+  <script src="assets/source-data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+    }
+  </script>
+</body>
+</html>
